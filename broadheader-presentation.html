@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Broadheader IT Solutions Inc. — Company Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #050505;
+    --dark: #0a0a0a;
+    --card: #111111;
+    --card-hover: #181818;
+    --border: rgba(255,255,255,0.08);
+    --gold: #ffffff;
+    --gold-light: #e0e0e0;
+    --gold-dim: rgba(255,255,255,0.06);
+    --gold-glow: rgba(255,255,255,0.04);
+    --white: #ffffff;
+    --muted: rgba(255,255,255,0.55);
+    --muted-light: rgba(255,255,255,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+  body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: #000; color: var(--white); }
+
+  /* ── Slide System ── */
+  .slide {
+    width: 100%; min-height: 100vh;
+    scroll-snap-align: start;
+    display: flex; align-items: center; justify-content: center;
+    padding: 64px 48px;
+    position: relative; overflow: hidden;
+    background: var(--black);
+  }
+  .slide-inner { max-width: 1060px; width: 100%; z-index: 2; }
+
+  /* ── Decorative ── */
+  .hex-bg {
+    position: absolute; inset: 0; opacity: 0.04; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='52'%3E%3Cpolygon points='30,2 58,17 58,47 30,62 2,47 2,17' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 60px 52px;
+  }
+  .glow {
+    position: absolute; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(circle, var(--gold-glow), transparent 70%);
+  }
+  .gold-line { width: 48px; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); }
+
+  /* ── Nav Dots ── */
+  .nav-dots {
+    position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 100;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .nav-dot {
+    width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3);
+    background: transparent; cursor: pointer; transition: all 0.3s;
+  }
+  .nav-dot:hover { border-color: var(--gold); }
+  .nav-dot.active { background: var(--gold); border-color: var(--gold); transform: scale(1.3); }
+  @media (max-width: 768px) { .nav-dots { display: none; } }
+
+  /* ── Page Number ── */
+  .page-num {
+    position: absolute; bottom: 28px; right: 40px;
+    font-size: 12px; font-weight: 600; letter-spacing: 3px; color: var(--muted-light);
+  }
+  .page-num span { color: var(--gold); }
+
+  /* ── Typography ── */
+  .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+  h1.hero { font-size: 64px; font-weight: 800; line-height: 1.05; letter-spacing: -2px; }
+  h1.title { font-size: 44px; font-weight: 800; line-height: 1.1; letter-spacing: -1px; }
+  h2.section { font-size: 32px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 32px; }
+  .text-gold { color: var(--gold-light); }
+  .body-text { font-size: 15px; line-height: 1.8; color: var(--muted); font-weight: 300; }
+  .small-text { font-size: 12px; color: var(--muted-light); letter-spacing: 1px; }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--card); border: 1px solid var(--border); padding: 32px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.2); }
+  .card-icon { font-size: 28px; margin-bottom: 16px; display: block; }
+  .card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+  .card p { font-size: 13px; line-height: 1.7; color: var(--muted); }
+  .card-accent { width: 100%; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); margin-bottom: 24px; }
+  .card-tag {
+    display: inline-block; margin-top: 16px; font-size: 10px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--gold);
+    padding: 4px 10px; border: 1px solid rgba(255,255,255,0.3);
+  }
+
+  /* ── Grids ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  .grid-split { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .flex-split { display: flex; gap: 48px; align-items: center; }
+  .flex-split > div { flex: 1; }
+  @media (max-width: 768px) {
+    .grid-2, .grid-3, .grid-split { grid-template-columns: 1fr !important; gap: 20px !important; }
+    .flex-split { flex-direction: column !important; gap: 28px !important; }
+    .flex-split > div { flex: none !important; width: 100% !important; }
+    .slide-inner[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+    .slide-inner { gap: 28px !important; }
+
+    /* Cover flex layout */
+    .cover-reverse { flex-direction: column !important; gap: 32px !important; }
+    .cover-reverse > div { flex: none !important; width: 100% !important; }
+    .cover-reverse > div:first-child { text-align: center !important; }
+
+    /* Typography */
+    h1.hero { font-size: 32px; letter-spacing: -1px; }
+    h1.title { font-size: 26px; letter-spacing: -0.5px; }
+    h2.section { font-size: 22px; margin-bottom: 20px; }
+    .eyebrow { font-size: 9px; letter-spacing: 3px; margin-bottom: 12px; }
+    .body-text { font-size: 13px; line-height: 1.7; }
+    .small-text { font-size: 10px; }
+
+    /* Slides */
+    .slide { padding: 32px 18px; min-height: auto; padding-bottom: 48px; }
+    html { scroll-snap-type: none; }
+
+    /* Cards */
+    .card { padding: 20px; }
+    .card h3 { font-size: 14px; }
+    .card p { font-size: 12px; line-height: 1.6; }
+    .card-icon { font-size: 22px; margin-bottom: 10px; }
+
+    /* Pills */
+    .pill { padding: 14px 16px; gap: 12px; }
+    .pill-num { font-size: 22px; min-width: 28px; }
+    .pill h4 { font-size: 13px; }
+    .pill p { font-size: 11px; }
+
+    /* Stats */
+    .stat-num { font-size: 32px; }
+    .stat-label { font-size: 10px; }
+
+    /* Value cards */
+    .value-card { padding: 14px 16px; margin-bottom: 10px; }
+    .value-card h4 { font-size: 13px; }
+    .value-card p { font-size: 11.5px; }
+
+    /* Dot list */
+    .dot-list { gap: 10px; }
+    .dot-list li { font-size: 12px; gap: 10px; }
+    .dot-list .dot { width: 5px; height: 5px; margin-top: 6px; }
+
+    /* Cyber badges */
+    .cyber-badge { padding: 14px 16px; }
+    .cyber-badge h4 { font-size: 11px; }
+    .cyber-badge p { font-size: 11px; }
+
+    /* Contact */
+    .contact-value { font-size: 14px; }
+    .contact-label { font-size: 9px; }
+    .contact-block { padding: 14px 0; }
+
+    /* CTA */
+    .cta-btn { padding: 12px 24px; font-size: 11px; }
+
+    /* Page number */
+    .page-num { bottom: 12px; right: 16px; font-size: 10px; }
+
+    /* Cover logo text */
+    .cover-reverse p[style*="font-size:52px"] { font-size: 36px !important; }
+    .cover-reverse div[style*="padding:20px 36px"] { padding: 14px 24px !important; }
+    .cover-reverse div[style*="padding:20px 36px"] p { font-size: 11px !important; letter-spacing: 2px !important; }
+
+    /* Force all inline grids/flex to single column */
+    [style*="gap:48px"] { gap: 24px !important; }
+    [style*="gap:56px"] { gap: 24px !important; }
+    [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+    [style*="display:grid"] { grid-template-columns: 1fr !important; }
+    [style*="display:flex"][style*="gap:36px"] { gap: 16px !important; flex-wrap: wrap !important; }
+    [style*="display:flex"][style*="gap:48px"] { flex-direction: column !important; gap: 24px !important; }
+    [style*="display:flex"][style*="gap:56px"] { flex-direction: column !important; gap: 24px !important; }
+
+    /* Fix inline max-width on text */
+    [style*="max-width:380px"] { max-width: 100% !important; }
+    [style*="max-width:360px"] { max-width: 100% !important; }
+    [style*="max-width:340px"] { max-width: 100% !important; }
+
+    /* Fix inline font sizes for cover logo */
+    [style*="font-size:52px"] { font-size: 36px !important; }
+    [style*="font-size:48px"] { font-size: 32px !important; }
+    [style*="padding:20px 36px"] { padding: 14px 20px !important; }
+
+    /* Tagline in cover */
+    [style*="letter-spacing:4px"][style*="font-size:14px"] { font-size: 11px !important; letter-spacing: 2px !important; }
+
+    /* Stats row */
+    [style*="display:flex"][style*="gap:36px"] > div { text-align: center; }
+  }
+
+  @media (max-width: 400px) {
+    h1.hero { font-size: 26px; }
+    h1.title { font-size: 22px; }
+    .slide { padding: 24px 14px; }
+    .card { padding: 16px; }
+    .stat-num { font-size: 26px; }
+    .cover-reverse p[style*="font-size:52px"] { font-size: 28px !important; }
+  }
+
+  /* ── Stat ── */
+  .stat-num { font-size: 48px; font-weight: 800; color: var(--white); line-height: 1; }
+  .stat-label { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 6px; }
+
+  /* ── Value Card (bordered left) ── */
+  .value-card {
+    background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--gold);
+    padding: 20px 24px; margin-bottom: 14px;
+  }
+  .value-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .value-card p { font-size: 12.5px; line-height: 1.6; color: var(--muted); }
+
+  /* ── Feature pill ── */
+  .pill {
+    display: flex; align-items: center; gap: 16px;
+    padding: 20px 24px; background: var(--card); border: 1px solid var(--border);
+    border-bottom: 1px solid rgba(255,255,255,0.15); transition: all 0.2s;
+  }
+  .pill:hover { background: var(--card-hover); border-color: rgba(255,255,255,0.25); }
+  .pill-num { font-size: 28px; font-weight: 800; color: rgba(255,255,255,0.25); min-width: 36px; }
+  .pill h4 { font-size: 14px; font-weight: 700; }
+  .pill p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* ── Cyber badge ── */
+  .cyber-badge {
+    background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--gold); padding: 18px 22px;
+  }
+  .cyber-badge h4 { font-size: 13px; font-weight: 700; color: var(--gold-light); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .cyber-badge p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* ── Promise bar ── */
+  .promise-bar { width: 100%; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); margin-bottom: 20px; }
+
+  /* ── Feature dot list ── */
+  .dot-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .dot-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 13.5px; line-height: 1.6; }
+  .dot-list .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+
+  /* ── Contact block ── */
+  .contact-block { padding: 18px 0; border-bottom: 1px solid var(--border); }
+  .contact-block:first-child { border-top: 1px solid var(--border); }
+  .contact-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .contact-value { font-size: 15px; font-weight: 600; color: var(--gold-light); }
+
+  /* ── CTA button ── */
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--white); color: #000; padding: 14px 32px;
+    font-size: 12px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    text-decoration: none; transition: transform 0.2s;
+  }
+  .cta-btn:hover { transform: translateY(-2px); }
+
+  /* ── Logo ── */
+  .logo-img { height: 48px; width: auto; display: block; }
+  .logo-img-lg { height: 80px; width: auto; display: block; }
+
+  /* ── Language Switcher ── */
+  .lang-switcher {
+    position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 200;
+    display: flex; gap: 4px; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
+    border: 1px solid var(--border); border-radius: 8px; padding: 4px;
+  }
+  .lang-btn {
+    padding: 6px 14px; border: none; border-radius: 6px; font-size: 12px; font-weight: 600;
+    color: var(--muted); background: transparent; cursor: pointer; transition: all 0.2s;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+  .lang-btn:hover { color: var(--white); }
+  .lang-btn.active { background: var(--white); color: #000; }
+  @media (max-width: 768px) {
+    .lang-switcher { top: 10px; padding: 3px; }
+    .lang-btn { padding: 5px 10px; font-size: 10px; }
+  }
+
+  /* ── Particle Canvas ── */
+  #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+  /* ── Cursor Glow ── */
+  #cursorGlow {
+    position: fixed; width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.06), transparent 70%);
+    pointer-events: none; z-index: 1; transform: translate(-50%, -50%);
+    transition: left 0.15s ease-out, top 0.15s ease-out;
+  }
+
+  /* ── Scroll Reveal ── */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Staggered cards */
+  .stagger-1 { transition-delay: 0.1s; }
+  .stagger-2 { transition-delay: 0.2s; }
+  .stagger-3 { transition-delay: 0.3s; }
+  .stagger-4 { transition-delay: 0.4s; }
+
+  /* ── Glitch Text ── */
+  .glitch {
+    position: relative;
+    display: inline-block;
+    animation: glitch-idle 4s infinite;
+  }
+  .glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute; left: 0; top: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+  }
+  .glitch::before {
+    color: rgba(255,255,255,0.8);
+    animation: glitch-top 3s infinite linear alternate-reverse;
+    clip-path: inset(0 0 65% 0);
+  }
+  .glitch::after {
+    color: rgba(255,255,255,0.6);
+    animation: glitch-bottom 2.5s infinite linear alternate-reverse;
+    clip-path: inset(65% 0 0 0);
+  }
+  @keyframes glitch-idle {
+    0%, 92%, 100% { opacity: 1; }
+    93% { opacity: 0.8; transform: translate(-2px, 1px); }
+    94% { opacity: 1; transform: translate(1px, -1px); }
+    95% { opacity: 0.9; transform: translate(0); }
+  }
+  @keyframes glitch-top {
+    0%, 90% { transform: translate(0); }
+    91% { transform: translate(-3px, -1px); }
+    92% { transform: translate(2px, 1px); }
+    93% { transform: translate(-1px, 0); }
+    100% { transform: translate(0); }
+  }
+  @keyframes glitch-bottom {
+    0%, 88% { transform: translate(0); }
+    89% { transform: translate(3px, 1px); }
+    90% { transform: translate(-2px, -1px); }
+    91% { transform: translate(1px, 0); }
+    100% { transform: translate(0); }
+  }
+
+  /* ── Card 3D Tilt ── */
+  .tilt-card {
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease-out;
+  }
+  .tilt-card:hover { box-shadow: 0 20px 40px rgba(255,255,255,0.05); }
+
+  /* ── Typing Animation ── */
+  .type-cursor::after {
+    content: '|';
+    animation: blink 0.8s infinite;
+    color: var(--white);
+    font-weight: 300;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* ── Matrix Rain Canvas ── */
+  #matrix { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.04; }
+
+  /* ── Counter ── */
+  .count-up { display: inline-block; }
+
+  /* ── Parallax Glow ── */
+  .parallax-glow { transition: transform 0.3s ease-out; }
+
+  /* ── Print ── */
+  @media print {
+    html { scroll-snap-type: none; }
+    .slide { min-height: auto; page-break-after: always; padding: 40px; }
+    .nav-dots, .glow, .hex-bg, #particles, #matrix, #cursorGlow { display: none; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    .glitch::before, .glitch::after { display: none; }
+    body { background: #080808; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Effect Layers -->
+<canvas id="matrix"></canvas>
+<canvas id="particles"></canvas>
+<div id="cursorGlow"></div>
+
+<!-- Language Switcher -->
+<div class="lang-switcher">
+  <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+  <button class="lang-btn" onclick="switchLang('zh')">中文</button>
+  <button class="lang-btn" onclick="switchLang('id')">ID</button>
+  <button class="lang-btn" onclick="switchLang('th')">ไทย</button>
+</div>
+
+<nav class="nav-dots" id="navDots"></nav>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- PAGE 1: COVER -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="slide" data-label="Cover">
+  <div class="hex-bg"></div>
+  <div class="glow" style="width:600px;height:600px;top:-200px;right:-100px"></div>
+  <div class="glow" style="width:400px;height:400px;bottom:-150px;left:-100px"></div>
+
+  <div class="slide-inner cover-reverse" style="display:flex;gap:48px;align-items:center">
+    <!-- Logo & Tagline (First) -->
+    <div style="flex:1;text-align:center">
+      <div style="margin-bottom:40px">
+        <p style="font-size:52px;font-weight:800;letter-spacing:-1px;color:var(--white);line-height:1.1"><span class="glitch" data-text="BROAD">BROAD</span><span class="glitch text-gold" data-text="HEADER">HEADER</span></p>
+        <p style="font-size:11px;font-weight:600;letter-spacing:5px;color:var(--muted);margin-top:8px">IT SOLUTIONS INC.</p>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,0.25);padding:20px 36px;background:var(--gold-dim);display:inline-block">
+        <p style="font-size:14px;font-weight:700;letter-spacing:4px;color:var(--gold-light);text-transform:uppercase">"Driven by Innovation,</p>
+        <p style="font-size:14px;font-weight:700;letter-spacing:4px;color:var(--gold-light);text-transform:uppercase">Defined by Progress"</p>
+      </div>
+    </div>
+    <!-- Headline (Second) -->
+    <div style="flex:1">
+      <div class="eyebrow reveal">Company Profile · 2025</div>
+      <h1 class="hero reveal" style="margin-bottom:24px">
+        TRANSFORM<br>YOUR <span class="text-gold">IDEAS</span><br>INTO REALITY
+      </h1>
+      <p class="body-text reveal" style="max-width:380px;margin-bottom:40px">
+        We are a dynamic software development startup from the Philippines, dedicated to shaping the digital future with cutting-edge solutions.
+      </p>
+      <div class="gold-line reveal" style="margin-bottom:20px"></div>
+      <p class="small-text">BROADHEADER IT SOLUTIONS INC.</p>
+    </div>
+  </div>
+  <div class="page-num"><span>01</span> / 10</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- PAGE 2: ABOUT US -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="slide" data-label="About">
+  <div class="hex-bg"></div>
+  <div class="glow" style="width:500px;height:500px;top:50%;right:-200px;transform:translateY(-50%)"></div>
+  <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--white)"></div>
+
+  <div class="slide-inner grid-split" style="gap:48px">
+    <div>
+      <div class="eyebrow reveal">About Us</div>
+      <h1 class="title reveal" style="margin-bottom:20px">WHO WE <span class="text-gold">ARE</span></h1>
+      <div class="gold-line reveal" style="margin-bottom:20px"></div>
+      <p class="body-text reveal" style="margin-bottom:16px">
+        Broadheader IT Solutions Inc. is a dynamic software development startup rooted in the Philippines, dedicated to shaping the digital future with cutting-edge solutions and globally recognized innovations.
+      </p>
+      <p class="body-text reveal" style="margin-bottom:36px">
+        What started as a bold initiative has rapidly evolved into a trusted technology partner, delivering transformative digital experiences that empower enterprises worldwide.
+      </p>
+      <div style="display:flex;gap:36px">
+        <div>
+          <div class="stat-num count-up" data-target="5+">0</div>
+          <div class="stat-label">Core Services</div>
+        </div>
+        <div>
+          <div class="stat-num count-up" data-target="24/7">0</div>
+          <div class="stat-label">Support</div>
+        </div>
+        <div>
+          <div class="stat-num count-up" data-target="PH">—</div>
+          <div class="stat-label">Based</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="eyebrow reveal">What Drives Us</div>
+      <div class="value-card reveal">
+        <h4>Innovation at the Core</h4>
+        <p>We embrace new technologies and continuously push boundaries to deliver solutions ahead of the curve.</p>
+      </div>
+      <div class="value-card reveal">
+        <h4>Partnership Mindset</h4>
+        <p>We build long-term relationships, acting as a true digital partner in our clients' growth journey.</p>
+      </div>
+      <div class="value-card reveal">
+        <h4>Global Perspective</h4>
+        <p>Rooted in the Philippines, we deliver solutions that meet global standards and serve international markets.</p>
+      </div>
+      <div class="value-card reveal">
+        <h4>Results-Focused</h4>
+        <p>Every solution is engineered for measurable impact — performance, conversions, and sustainable growth.</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-num"><span>02</span> / 10</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- PAGE 3: MISSION, VISION & VALUES -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="slide" data-label="Mission">
+  <div class="hex-bg"></div>
+  <div class="glow" style="width:400px;height:400px;bottom:-100px;left:30%"></div>
+
+  <div class="slide-inner">
+    <div class="eyebrow reveal">Our Foundation</div>
+    <h1 class="title reveal" style="margin-bottom:48px">MISSION, VISION <span class="text-gold">&</span> VALUES</h1>
+
+    <div class="grid-3">
+      <div class="card reveal tilt-card">
+        <div class="card-accent"></div>
+        <p style="font-size:56px;font-weight:800;color:rgba(255,255,255,0.08);line-height:1;margin-bottom:8px">01</p>
+        <h3 class="text-gold">Our Mission</h3>
+        <p>To empower businesses with innovative digital solutions that drive sustainable growth, enhance efficiency, and create lasting impact. We leverage technology to bridge the gap between complex challenges and smart, scalable solutions.</p>
+      </div>
+      <div class="card reveal tilt-card">
+        <div class="card-accent"></div>
+        <p style="font-size:56px;font-weight:800;color:rgba(255,255,255,0.08);line-height:1;margin-bottom:8px">02</p>
+        <h3 class="text-gold">Our Vision</h3>
+        <p>To become a globally recognized technology powerhouse from Southeast Asia — known for building transformative digital products that empower businesses and shape the future of the digital economy.</p>
+      </div>
+      <div class="card reveal tilt-card">
+        <div class="card-accent"></div>
+        <p style="font-size:56px;font-weight:800;color:rgba(255,255,255,0.08);line-height:1;margin-bottom:8px">03</p>
+        <h3 class="text-gold">Our Values</h3>
+        <p>
+          <strong style="color:var(--gold-light)">Excellence</strong> — We pursue quality in everything we ship.<br><br>
+          <strong style="color:var(--gold-light)">Integrity</strong> — We are transparent, honest, and accountable.<br><br>
+          <strong style="color:var(--gold-light)">Agility</strong> — We adapt, iterate, and move decisively.<br><br>
+          <strong style="color:var(--gold-light)">Collaboration</strong> — We thrive as one unified team.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="page-num"><span>03</span> / 10</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- PAGE 4: WHY CHOOSE US -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="slide" data-label="Why Us">
+  <div class="hex-bg"></div>
+  <div class="glow" style="width:500px;height:500px;top:-150px;left:-150px"></div>
+
+  <div class="slide-inner grid-split" class="mobile-gap" style="gap:48px;align-items:center">
+    <div>
+      <div class="eyebrow reveal">Our Advantage</div>
+      <h1 class="title reveal" style="margin-bottom:24px">WHY CHOOSE <span class="text-gold">US</span></h1>
+      <p class="body-text reveal" style="max-width:380px;margin-bottom:32px">
+        Broadheader combines innovation, reliability, and expertise to build software solutions that drive your digital success. We don't just build products — we build competitive advantages.
+      </p>
+      <div style="padding-left:20px;border-left:2px solid var(--gold);font-size:14px;font-style:italic;color:var(--gold-light);line-height:1.7">
+        "We treat every client project as if it were our own startup — with the same urgency, creativity, and commitment to excellence."
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="pill reveal"><div class="pill-num">01</div><div><h4>Cutting Edge Technology</h4><p>Modern solutions for modern challenges</p></div></div>
+      <div class="pill reveal"><div class="pill-num">02</div><div><h4>24/7 Dedicated Support</h4><p>Always available, always reliable</p></div></div>
+      <div class="pill reveal"><div class="pill-num">03</div><div><h4>Data-Driven Approach</h4><p>Smarter decisions, better outcomes</p></div></div>
+      <div class="pill reveal"><div class="pill-num">04</div><div><h4>Future-Ready & Scalable Design</h4><p>Built to grow with your business</p></div></div>
+    </div>
+  </div>
+  <div class="page-num"><span>04</span> / 10</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- PAGE 5: DIFFERENTIATORS -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="slide" data-label="Differentiators">
+  <div class="hex-bg"></div>
+
+  <div class="slide-inner">
+    <div class="eyebrow reveal">Our Differentiators</div>
+    <h2 class="section reveal">WHAT SETS US <span class="text-gold">APART</span></h2>
+
+    <div class="grid-2">
+      <div class="card reveal tilt-card">
+        <p style="font-size:44px;font-weight:800;color:rgba(255,255,255,0.1);line-height:1;margin-bottom:12px">01</p>
+        <span class="card-icon">⚡</span>
+        <h3>Cutting Edge Technology</h3>
+        <p>We stay ahead of the technology curve — adopting the latest frameworks, cloud infrastructure, and development practices so your product is never outdated.</p>
+        <div class="card-tag">Tech-First</div>
+      </div>
+      <div class="card reveal tilt-card">
+        <p style="font-size:44px;font-weight:800;color:rgba(255,255,255,0.1);line-height:1;margin-bottom:12px">02</p>
+        <span class="card-icon">🛡️</span>
+        <h3>24/7 Dedicated Support</h3>
+        <p>Our support team is always on standby to ensure your systems run smoothly — no downtime, no missed opportunities, just seamless performance.</p>
+        <div class="card-tag">Always On</div>
+      </div>
+      <div class="card reveal tilt-card">
+        <p style="font-size:44px;font-weight:800;color:rgba(255,255,255,0.1);line-height:1;margin-bottom:12px">03</p>
+        <span class="card-icon">📊</span>
+        <h3>Data-Driven Development</h3>
+        <p>Every feature we build, every design choice we make is backed by data — ensuring your product is optimized for real-world performance and measurable results.</p>
+        <div class="card-tag">Insights-Led</div>
+      </div>
+      <div class="card reveal tilt-card">
+        <p style="font-size:44px;font-weight:800;color:rgba(255,255,255,0.1);line-height:1;margin-bottom:12px">04</p>
+        <span class="card-icon">🏗️</span>
+        <h3>Future-Ready & Scalable</h3>
+        <p>Architecture that evolves — from startup to enterprise scale — without costly rewrites or migrations. Your growth is built into the foundation.</p>
+        <div class="card-tag">Scale-Ready</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-num"><span>05</span> / 10</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- PAGE 6: SERVICES — WEB & MOBILE -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="slide" data-label="Web & Mobile">
+  <div class="hex-bg"></div>
+  <div class="glow" style="width:500px;height:500px;bottom:-200px;right:-200px"></div>
+
+  <div class="slide-inner">
+    <div class="eyebrow reveal">Our Services — 01 & 02</div>
+    <h2 class="section reveal">WEB APPS <span class="text-gold">&</span> MOBILE APPS</h2>
+
+    <div class="grid-2">
+      <div class="card reveal tilt-card">
+        <div class="card-accent"></div>
+        <span class="card-icon">🌐</span>
+        <h3>Web Applications</h3>
+        <p>From corporate websites to complex e-commerce platforms, we develop web solutions that are fast, secure, and designed to convert.</p>
+        <ul class="dot-list" style="margin-top:16px">
+          <li><span class="dot"></span>Corporate & marketing websites</li>
+          <li><span class="dot"></span>E-commerce platforms</li>
+          <li><span class="dot"></span>Progressive Web Apps (PWAs)</li>
+          <li><span class="dot"></span>Custom CMS & dashboards</li>
+          <li><span class="dot"></span>API integrations & backend systems</li>
+        </ul>
+      </div>
+      <div class="card reveal tilt-card">
+        <div class="card-accent"></div>
+        <span class="card-icon">📱</span>
+        <h3>Mobile Applications</h3>
+        <p>We build mobile apps that provide real value to your customers while strengthening your brand, from concept to App Store launch.</p>
+        <ul class="dot-list" style="margin-top:16px">
+          <li><span class="dot"></span>iOS & Android native apps</li>
+          <li><span class="dot"></span>Cross-platform (React Native / Flutter)</li>
+          <li><span class="dot"></span>UI/UX-focused design</li>
+          <li><span class="dot"></span>Push notifications & real-time features</li>
+          <li><span class="dot"></span>App Store optimization & launch support</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="page-num"><span>06</span> / 10</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- PAGE 7: SERVICES — DESIGN & SUPPORT -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="slide" data-label="Design & Support">
+  <div class="hex-bg"></div>
+
+  <div class="slide-inner">
+    <div class="eyebrow reveal">Our Services — 03 & 04</div>
+    <h2 class="section reveal">DIGITAL DESIGN <span class="text-gold">&</span> TECHNICAL SUPPORT</h2>
+
+    <div class="grid-2">
+      <div class="card reveal tilt-card">
+        <div class="card-accent"></div>
+        <span class="card-icon">🎨</span>
+        <h3>Digital Design</h3>
+        <p>We create visual identities and user experiences that communicate your brand's story effectively. Design isn't decoration — it's the first conversation with your customer.</p>
+        <ul class="dot-list" style="margin-top:16px">
+          <li><span class="dot"></span>Brand identity & logo systems</li>
+          <li><span class="dot"></span>UI/UX design for web and mobile</li>
+          <li><span class="dot"></span>Design systems & component libraries</li>
+          <li><span class="dot"></span>Motion design & micro-animations</li>
+          <li><span class="dot"></span>Marketing materials & digital assets</li>
+        </ul>
+      </div>
+      <div class="card reveal tilt-card">
+        <div class="card-accent"></div>
+        <span class="card-icon">🔧</span>
+        <h3>Technical Support</h3>
+        <p>Our support team ensures your websites, applications, and digital infrastructure operate reliably around the clock. We're your safety net.</p>
+        <ul class="dot-list" style="margin-top:16px">
+          <li><span class="dot"></span>24/7 monitoring & incident response</li>
+          <li><span class="dot"></span>Bug fixes & performance optimization</li>
+          <li><span class="dot"></span>Server management & cloud hosting</li>
+          <li><span class="dot"></span>Backup & disaster recovery</li>
+          <li><span class="dot"></span>Regular updates & maintenance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="page-num"><span>07</span> / 10</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- PAGE 8: CYBERSECURITY -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="slide" data-label="Cybersecurity">
+  <div class="hex-bg"></div>
+  <div class="glow" style="width:400px;height:400px;bottom:-100px;left:-100px"></div>
+
+  <div class="slide-inner">
+    <div class="eyebrow reveal">Our Services — 05</div>
+    <h1 class="title reveal" style="margin-bottom:40px">CYBERSECURITY <span class="text-gold">SERVICES</span></h1>
+
+    <div class="grid-split" style="gap:48px">
+      <div>
+        <p class="body-text reveal" style="margin-bottom:28px">
+          We implement multi-layered security measures to safeguard your business. From basic security hygiene to advanced threat protection, we help you build customer trust through robust data protection.
+        </p>
+        <ul class="dot-list">
+          <li><span class="dot"></span><div><strong style="color:var(--white)">Security Audits & Vulnerability Assessment</strong><br><span style="font-size:12px;color:var(--muted)">Thorough reviews to identify and patch security gaps before they become threats.</span></div></li>
+          <li><span class="dot"></span><div><strong style="color:var(--white)">Advanced Threat Protection</strong><br><span style="font-size:12px;color:var(--muted)">Real-time monitoring and response systems to detect and neutralize attacks.</span></div></li>
+          <li><span class="dot"></span><div><strong style="color:var(--white)">Data Encryption & Compliance</strong><br><span style="font-size:12px;color:var(--muted)">End-to-end encryption and compliance frameworks to protect sensitive data.</span></div></li>
+          <li><span class="dot"></span><div><strong style="color:var(--white)">Incident Response & Recovery</strong><br><span style="font-size:12px;color:var(--muted)">Rapid containment and recovery plans to minimize downtime and data loss.</span></div></li>
+        </ul>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="cyber-badge reveal">
+          <h4>🔒 Basic Security Hygiene</h4>
+          <p>SSL certificates, secure coding practices, input validation, and access control fundamentals.</p>
+        </div>
+        <div class="cyber-badge reveal">
+          <h4>🛡️ Threat Intelligence</h4>
+          <p>Continuous threat landscape monitoring to keep your defenses updated against emerging vectors.</p>
+        </div>
+        <div class="cyber-badge reveal">
+          <h4>📋 Compliance & Governance</h4>
+          <p>Aligning systems with international data privacy standards including GDPR and local regulations.</p>
+        </div>
+        <div class="cyber-badge reveal">
+          <h4>🌐 Network Security</h4>
+          <p>Firewalls, VPN configurations, and network segmentation to protect your digital infrastructure.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-num"><span>08</span> / 10</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- PAGE 9: OUR PROMISE -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="slide" data-label="Promise">
+  <div class="hex-bg"></div>
+  <div class="glow" style="width:500px;height:500px;top:-200px;right:20%"></div>
+
+  <div class="slide-inner">
+    <div class="eyebrow reveal">The Broadheader Commitment</div>
+    <h2 class="section reveal">OUR PROMISE <span class="text-gold">TO YOU</span></h2>
+
+    <div class="grid-3">
+      <div class="card reveal tilt-card">
+        <div class="promise-bar"></div>
+        <span class="card-icon">🎯</span>
+        <h3>On-Time, On-Budget Delivery</h3>
+        <p>We respect your timelines and budgets. Our agile process ensures transparent milestones, regular updates, and no surprise costs. You always know where your project stands.</p>
+        <p style="font-size:48px;font-weight:800;color:rgba(255,255,255,0.06);position:absolute;bottom:16px;right:20px">01</p>
+      </div>
+      <div class="card reveal tilt-card">
+        <div class="promise-bar"></div>
+        <span class="card-icon">🔬</span>
+        <h3>Quality Without Compromise</h3>
+        <p>Every line of code, every design element goes through rigorous quality assurance. We ship products that we're proud to put our name on.</p>
+        <p style="font-size:48px;font-weight:800;color:rgba(255,255,255,0.06);position:absolute;bottom:16px;right:20px">02</p>
+      </div>
+      <div class="card reveal tilt-card">
+        <div class="promise-bar"></div>
+        <span class="card-icon">🤝</span>
+        <h3>Long-Term Partnership</h3>
+        <p>We don't disappear after launch. Post-launch support, feature updates, and strategic guidance are all part of how we operate. Your growth is our growth.</p>
+        <p style="font-size:48px;font-weight:800;color:rgba(255,255,255,0.06);position:absolute;bottom:16px;right:20px">03</p>
+      </div>
+    </div>
+
+    <div style="margin-top:40px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:24px">
+      <p class="small-text" style="letter-spacing:3px">BROADHEADER IT SOLUTIONS INC.</p>
+      <p style="font-size:15px;font-weight:700;letter-spacing:3px;color:var(--gold)">GROW YOUR BUSINESS WITH US</p>
+    </div>
+  </div>
+  <div class="page-num"><span>09</span> / 10</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- PAGE 10: CONTACT -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="slide" data-label="Contact">
+  <div class="hex-bg"></div>
+  <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),transparent)"></div>
+  <div class="glow" style="width:500px;height:500px;bottom:-200px;right:-200px"></div>
+
+  <div class="slide-inner grid-split" style="gap:56px;align-items:center">
+    <div>
+      <div class="eyebrow reveal">Get In Touch</div>
+      <h1 class="hero reveal" style="margin-bottom:24px">
+        LET'S BUILD<br>SOMETHING<br><span class="text-gold">GREAT</span>
+      </h1>
+      <p class="body-text reveal" style="max-width:360px;margin-bottom:36px">
+        Ready to transform your ideas into reality? Let's start a conversation about your next digital project. Our team is ready to listen, plan, and deliver.
+      </p>
+      <a href="mailto:info@broadheader.com" class="cta-btn">→ START YOUR PROJECT</a>
+
+      <div style="margin-top:40px">
+        <p style="font-size:32px;font-weight:800;letter-spacing:-0.5px;color:var(--white);line-height:1.1">BROAD<span class="text-gold">HEADER</span></p>
+        <p style="font-size:10px;font-weight:600;letter-spacing:4px;color:var(--muted);margin-top:4px">IT SOLUTIONS INC.</p>
+      </div>
+    </div>
+
+    <div>
+      <p style="font-size:11px;font-weight:700;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:12px">Contact Information</p>
+
+      <div class="contact-block reveal">
+        <div class="contact-label">Facebook</div>
+        <div class="contact-value">Broadheader</div>
+      </div>
+      <div class="contact-block reveal">
+        <div class="contact-label">Email</div>
+        <div class="contact-value">info@broadheader.com</div>
+      </div>
+      <div class="contact-block reveal">
+        <div class="contact-label">Phone</div>
+        <div class="contact-value">+63 947 544 7628</div>
+      </div>
+      <div class="contact-block reveal">
+        <div class="contact-label">Address</div>
+        <div style="font-size:14px;color:var(--white);line-height:1.6;margin-top:4px">Pampang, Angeles City,<br>Pampanga, Philippines</div>
+      </div>
+
+      <div style="margin-top:28px;padding:20px;background:var(--gold-dim);border:1px solid rgba(255,255,255,0.2);text-align:center">
+        <p style="font-size:15px;font-weight:700;letter-spacing:3px;color:var(--gold-light)">"TRANSFORM YOUR IDEAS INTO REALITY"</p>
+        <p style="font-size:11px;color:var(--muted);margin-top:6px;letter-spacing:2px">BROADHEADER IT SOLUTIONS INC. · 2025</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-num"><span>10</span> / 10</div>
+</div>
+
+<script>
+// ── Nav dots + keyboard ──
+const slides = document.querySelectorAll('.slide');
+const dotsContainer = document.getElementById('navDots');
+slides.forEach((slide, i) => {
+  const dot = document.createElement('button');
+  dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+  dot.title = slide.dataset.label || `Slide ${i + 1}`;
+  dot.onclick = () => slide.scrollIntoView({ behavior: 'smooth' });
+  dotsContainer.appendChild(dot);
+});
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const index = Array.from(slides).indexOf(entry.target);
+      document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === index));
+    }
+  });
+}, { threshold: 0.5 });
+slides.forEach(s => observer.observe(s));
+document.addEventListener('keydown', (e) => {
+  const active = Array.from(document.querySelectorAll('.nav-dot')).findIndex(d => d.classList.contains('active'));
+  if ((e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') && active < slides.length - 1) { e.preventDefault(); slides[active + 1].scrollIntoView({ behavior: 'smooth' }); }
+  if ((e.key === 'ArrowUp' || e.key === 'ArrowLeft') && active > 0) { e.preventDefault(); slides[active - 1].scrollIntoView({ behavior: 'smooth' }); }
+});
+
+// ── Translation System (text-replace approach) ──
+// Store original English HTML on first load
+let originalSlidesHTML = [];
+document.querySelectorAll('.slide').forEach(s => originalSlidesHTML.push(s.innerHTML));
+
+const TR = {
+  zh: [
+    ["Company Profile · 2025", "公司简介 · 2025"],
+    ["TRANSFORM", "将您的创意"],
+    ["YOUR ", ""],
+    ["INTO REALITY", "变为现实"],
+    [">IDEAS<", ">创意<"],
+    [">ARE<", ">谁<"],
+    [">US<", ">我们<"],
+    [">APART<", ">独特<"],
+    [">SERVICES<", ">服务<"],
+    [">GREAT<", ">伟大<"],
+    [">TO YOU<", ">对您<"],
+    ["Dedicated Support", "专属支持"],
+    ["Future-Ready & Scalable Design", "面向未来的可扩展设计"],
+    ["Corporate & marketing websites", "企业和营销网站"],
+    ["Custom CMS & dashboards", "自定义CMS和仪表板"],
+    ["API integrations & backend systems", "API集成和后端系统"],
+    ["Push notifications & real-time features", "推送通知和实时功能"],
+    ["App Store optimization & launch support", "应用商店优化和发布支持"],
+    ["Brand identity & logo systems", "品牌标识和标志系统"],
+    ["Design systems & component libraries", "设计系统和组件库"],
+    ["Motion design & micro-animations", "动效设计和微交互"],
+    ["Marketing materials & digital assets", "营销材料和数字资产"],
+    ["24/7 monitoring & incident response", "24/7监控和事件响应"],
+    ["Bug fixes & performance optimization", "错误修复和性能优化"],
+    ["Server management & cloud hosting", "服务器管理和云托管"],
+    ["Backup & disaster recovery", "备份和灾难恢复"],
+    ["Regular updates & maintenance", "定期更新和维护"],
+    ["GROW YOUR BUSINESS WITH US", "与我们一起发展您的业务"],
+    ["We are a dynamic software development startup from the Philippines, dedicated to shaping the digital future with cutting-edge solutions.", "我们是一家来自菲律宾的充满活力的软件开发初创公司，致力于以尖端解决方案塑造数字未来。"],
+    ['"Driven by Innovation,', '"以创新为驱动力，'],
+    ['Defined by Progress"', '以进步为定义"'],
+    ["About Us", "关于我们"],
+    ["WHO WE", "我们是"],
+    ["Broadheader IT Solutions Inc. is a dynamic software development startup rooted in the Philippines, dedicated to shaping the digital future with cutting-edge solutions and globally recognized innovations.", "Broadheader IT Solutions Inc. 是一家扎根菲律宾的充满活力的软件开发初创公司，致力于以尖端解决方案和全球认可的创新塑造数字未来。"],
+    ["What started as a bold initiative has rapidly evolved into a trusted technology partner, delivering transformative digital experiences that empower enterprises worldwide.", "从一个大胆的倡议开始，已迅速发展成为值得信赖的技术合作伙伴，为全球企业提供变革性的数字体验。"],
+    ["Core Services", "核心服务"],
+    ["Support", "技术支持"],
+    ["Based", "总部"],
+    ["What Drives Us", "驱动力"],
+    ["Innovation at the Core", "以创新为核心"],
+    ["We embrace new technologies and continuously push boundaries to deliver solutions ahead of the curve.", "我们拥抱新技术，不断突破边界，提供领先于时代的解决方案。"],
+    ["Partnership Mindset", "合作伙伴思维"],
+    ["We build long-term relationships, acting as a true digital partner in our clients' growth journey.", "我们建立长期关系，作为客户增长旅程中真正的数字合作伙伴。"],
+    ["Global Perspective", "全球视野"],
+    ["Rooted in the Philippines, we deliver solutions that meet global standards and serve international markets.", "扎根菲律宾，我们提供符合全球标准并服务国际市场的解决方案。"],
+    ["Results-Focused", "结果导向"],
+    ["Every solution is engineered for measurable impact — performance, conversions, and sustainable growth.", "每个解决方案都是为可衡量的影响而设计——性能、转化率和可持续增长。"],
+    ["Our Foundation", "我们的基础"],
+    ["MISSION, VISION", "使命、愿景"],
+    ["VALUES", "价值观"],
+    ["Our Mission", "我们的使命"],
+    ["To empower businesses with innovative digital solutions that drive sustainable growth, enhance efficiency, and create lasting impact. We leverage technology to bridge the gap between complex challenges and smart, scalable solutions.", "通过创新数字解决方案赋能企业，推动可持续增长，提高效率，创造持久影响。"],
+    ["Our Vision", "我们的愿景"],
+    ["To become a globally recognized technology powerhouse from Southeast Asia — known for building transformative digital products that empower businesses and shape the future of the digital economy.", "成为东南亚全球公认的技术强国——以构建变革性数字产品而闻名。"],
+    ["Our Values", "我们的价值观"],
+    ["Excellence", "卓越"],
+    ["We pursue quality in everything we ship.", "我们追求每一项交付的品质。"],
+    ["Integrity", "诚信"],
+    ["We are transparent, honest, and accountable.", "我们透明、诚实、负责。"],
+    ["Agility", "敏捷"],
+    ["We adapt, iterate, and move decisively.", "我们适应、迭代、果断行动。"],
+    ["Collaboration", "协作"],
+    ["We thrive as one unified team.", "我们作为一个统一的团队蓬勃发展。"],
+    ["Our Advantage", "我们的优势"],
+    ["WHY CHOOSE", "为什么选择"],
+    ["Broadheader combines innovation, reliability, and expertise to build software solutions that drive your digital success. We don't just build products — we build competitive advantages.", "Broadheader将创新、可靠性和专业知识相结合，构建推动您数字成功的软件解决方案。"],
+    ["We treat every client project as if it were our own startup — with the same urgency, creativity, and commitment to excellence.", "我们把每个客户项目都当作自己的创业项目——带着同样的紧迫感、创造力和对卓越的承诺。"],
+    ["Cutting Edge Technology", "尖端技术"],
+    ["Modern solutions for modern challenges", "应对现代挑战的现代解决方案"],
+    ["24/7 Dedicated Support", "24/7 专属支持"],
+    ["Always available, always reliable", "始终可用，始终可靠"],
+    ["Data-Driven Approach", "数据驱动方法"],
+    ["Smarter decisions, better outcomes", "更明智的决策，更好的结果"],
+    ["Future-Ready & Scalable Design", "面向未来的可扩展设计"],
+    ["Built to grow with your business", "与您的业务一起成长"],
+    ["Our Differentiators", "我们的差异化"],
+    ["WHAT SETS US", "我们的独特之处"],
+    ["We stay ahead of the technology curve — adopting the latest frameworks, cloud infrastructure, and development practices so your product is never outdated.", "我们始终走在技术前沿——采用最新的框架和开发实践，确保您的产品永不过时。"],
+    ["Our support team is always on standby to ensure your systems run smoothly — no downtime, no missed opportunities, just seamless performance.", "我们的支持团队随时待命，确保您的系统平稳运行。"],
+    ["Data-Driven Development", "数据驱动开发"],
+    ["Every feature we build, every design choice we make is backed by data — ensuring your product is optimized for real-world performance and measurable results.", "我们构建的每个功能都有数据支持——确保您的产品针对实际性能进行了优化。"],
+    ["Future-Ready & Scalable", "面向未来且可扩展"],
+    ["Architecture that evolves — from startup to enterprise scale — without costly rewrites or migrations. Your growth is built into the foundation.", "架构随着您的业务发展而演变——从初创到企业规模——无需昂贵的重写。"],
+    ["Our Services — 01 & 02", "我们的服务 — 01 & 02"],
+    ["WEB APPS", "网页应用"],
+    ["MOBILE APPS", "移动应用"],
+    ["Web Applications", "网页应用"],
+    ["From corporate websites to complex e-commerce platforms, we develop web solutions that are fast, secure, and designed to convert.", "从企业网站到复杂的电商平台，我们开发快速、安全且旨在转化的网页解决方案。"],
+    ["Corporate & marketing websites", "企业和营销网站"],
+    ["E-commerce platforms", "电商平台"],
+    ["Progressive Web Apps (PWAs)", "渐进式网页应用 (PWA)"],
+    ["Custom CMS & dashboards", "自定义CMS和仪表板"],
+    ["API integrations & backend systems", "API集成和后端系统"],
+    ["Mobile Applications", "移动应用"],
+    ["We build mobile apps that provide real value to your customers while strengthening your brand, from concept to App Store launch.", "我们构建为客户提供真正价值的移动应用，从概念到应用商店发布。"],
+    ["iOS & Android native apps", "iOS和Android原生应用"],
+    ["Cross-platform (React Native / Flutter)", "跨平台开发 (React Native / Flutter)"],
+    ["UI/UX-focused design", "以UI/UX为中心的设计"],
+    ["Push notifications & real-time features", "推送通知和实时功能"],
+    ["App Store optimization & launch support", "应用商店优化和发布支持"],
+    ["Our Services — 03 & 04", "我们的服务 — 03 & 04"],
+    ["DIGITAL DESIGN", "数字设计"],
+    ["TECHNICAL SUPPORT", "技术支持"],
+    ["Digital Design", "数字设计"],
+    ["We create visual identities and user experiences that communicate your brand's story effectively. Design isn't decoration — it's the first conversation with your customer.", "我们创建有效传达品牌故事的视觉标识。设计不是装饰——它是与客户的第一次对话。"],
+    ["Brand identity & logo systems", "品牌标识和标志系统"],
+    ["UI/UX design for web and mobile", "网页和移动端UI/UX设计"],
+    ["Design systems & component libraries", "设计系统和组件库"],
+    ["Motion design & micro-animations", "动效设计和微交互"],
+    ["Marketing materials & digital assets", "营销材料和数字资产"],
+    ["Technical Support", "技术支持"],
+    ["Our support team ensures your websites, applications, and digital infrastructure operate reliably around the clock. We're your safety net.", "我们的支持团队确保您的网站和应用全天候可靠运行。"],
+    ["24/7 monitoring & incident response", "24/7监控和事件响应"],
+    ["Bug fixes & performance optimization", "错误修复和性能优化"],
+    ["Server management & cloud hosting", "服务器管理和云托管"],
+    ["Backup & disaster recovery", "备份和灾难恢复"],
+    ["Regular updates & maintenance", "定期更新和维护"],
+    ["Our Services — 05", "我们的服务 — 05"],
+    ["CYBERSECURITY", "网络安全"],
+    ["SERVICES", "服务"],
+    ["We implement multi-layered security measures to safeguard your business. From basic security hygiene to advanced threat protection, we help you build customer trust through robust data protection.", "我们实施多层安全措施来保护您的业务。从基本安全到高级威胁防护。"],
+    ["Security Audits & Vulnerability Assessment", "安全审计和漏洞评估"],
+    ["Thorough reviews to identify and patch security gaps before they become threats.", "全面审查以识别和修补安全漏洞。"],
+    ["Advanced Threat Protection", "高级威胁防护"],
+    ["Real-time monitoring and response systems to detect and neutralize attacks.", "实时监控和响应系统。"],
+    ["Data Encryption & Compliance", "数据加密与合规"],
+    ["End-to-end encryption and compliance frameworks to protect sensitive data.", "端到端加密协议和合规框架。"],
+    ["Incident Response & Recovery", "事件响应与恢复"],
+    ["Rapid containment and recovery plans to minimize downtime and data loss.", "快速遏制和恢复计划。"],
+    ["Basic Security Hygiene", "基本安全卫生"],
+    ["SSL certificates, secure coding practices, input validation, and access control fundamentals.", "SSL证书、安全编码实践、输入验证和访问控制。"],
+    ["Threat Intelligence", "威胁情报"],
+    ["Continuous threat landscape monitoring to keep your defenses updated against emerging vectors.", "持续的威胁态势监控。"],
+    ["Compliance & Governance", "合规与治理"],
+    ["Aligning systems with international data privacy standards including GDPR and local regulations.", "使系统符合GDPR等国际标准。"],
+    ["Network Security", "网络安全"],
+    ["Firewalls, VPN configurations, and network segmentation to protect your digital infrastructure.", "防火墙、VPN配置和网络分段。"],
+    ["The Broadheader Commitment", "Broadheader承诺"],
+    ["OUR PROMISE", "我们的承诺"],
+    ["TO YOU", "对您"],
+    ["On-Time, On-Budget Delivery", "按时按预算交付"],
+    ["We respect your timelines and budgets. Our agile process ensures transparent milestones, regular updates, and no surprise costs. You always know where your project stands.", "我们尊重您的时间表和预算。敏捷流程确保透明的里程碑。"],
+    ["Quality Without Compromise", "品质不妥协"],
+    ["Every line of code, every design element goes through rigorous quality assurance. We ship products that we're proud to put our name on.", "每行代码都经过严格的质量保证。"],
+    ["Long-Term Partnership", "长期合作伙伴关系"],
+    ["We don't disappear after launch. Post-launch support, feature updates, and strategic guidance are all part of how we operate. Your growth is our growth.", "发布后我们不会消失。您的成长就是我们的成长。"],
+    ["GROW YOUR BUSINESS WITH US", "与我们一起发展您的业务"],
+    ["Get In Touch", "联系我们"],
+    ["LET'S BUILD", "让我们一起"],
+    ["SOMETHING", "构建"],
+    ["GREAT", "伟大的作品"],
+    ["Ready to transform your ideas into reality? Let's start a conversation about your next digital project. Our team is ready to listen, plan, and deliver.", "准备好将您的想法变为现实了吗？我们的团队随时准备倾听、规划和交付。"],
+    ["START YOUR PROJECT", "开始您的项目"],
+    ["Contact Information", "联系信息"],
+    ["Facebook", "脸书"],
+    [">Email<", ">电子邮件<"],
+    [">Phone<", ">电话<"],
+    [">Address<", ">地址<"],
+    ["Pampang, Angeles City,", "Pampang, Angeles City,"],
+    ["Pampanga, Philippines", "Pampanga, 菲律宾"],
+    ['"TRANSFORM YOUR IDEAS INTO REALITY"', '"将您的创意变为现实"'],
+    ["Tech-First", "技术优先"],
+    ["Always On", "全天候"],
+    ["Insights-Led", "洞察驱动"],
+    ["Scale-Ready", "可扩展"],
+  ],
+  id: [
+    ["Company Profile · 2025", "Profil Perusahaan · 2025"],
+    ["TRANSFORM", "WUJUDKAN"],
+    ["YOUR ", ""],
+    ["INTO REALITY", "MENJADI NYATA"],
+    [">IDEAS<", ">IDE<"],
+    [">ARE<", ">KAMI<"],
+    [">US<", ">KAMI<"],
+    [">APART<", ">BERBEDA<"],
+    [">SERVICES<", ">LAYANAN<"],
+    [">GREAT<", ">HEBAT<"],
+    [">TO YOU<", ">UNTUK ANDA<"],
+    ["Dedicated Support", "Dukungan Khusus"],
+    ["Future-Ready & Scalable Design", "Desain Siap Masa Depan & Skalabel"],
+    ["Corporate & marketing websites", "Situs web korporat & pemasaran"],
+    ["Custom CMS & dashboards", "CMS & dashboard kustom"],
+    ["API integrations & backend systems", "Integrasi API & sistem backend"],
+    ["Push notifications & real-time features", "Notifikasi push & fitur real-time"],
+    ["App Store optimization & launch support", "Optimasi & dukungan peluncuran App Store"],
+    ["Brand identity & logo systems", "Identitas brand & sistem logo"],
+    ["Design systems & component libraries", "Sistem desain & pustaka komponen"],
+    ["Motion design & micro-animations", "Desain motion & micro-animation"],
+    ["Marketing materials & digital assets", "Materi pemasaran & aset digital"],
+    ["24/7 monitoring & incident response", "Pemantauan & respons insiden 24/7"],
+    ["Bug fixes & performance optimization", "Perbaikan bug & optimasi kinerja"],
+    ["Server management & cloud hosting", "Manajemen server & cloud hosting"],
+    ["Backup & disaster recovery", "Backup & pemulihan bencana"],
+    ["Regular updates & maintenance", "Pembaruan & pemeliharaan rutin"],
+    ["GROW YOUR BUSINESS WITH US", "KEMBANGKAN BISNIS ANDA BERSAMA KAMI"],
+    ["We are a dynamic software development startup from the Philippines, dedicated to shaping the digital future with cutting-edge solutions.", "Kami adalah startup pengembangan perangkat lunak dinamis dari Filipina, berdedikasi membentuk masa depan digital."],
+    ['"Driven by Innovation,', '"Didorong oleh Inovasi,'],
+    ['Defined by Progress"', 'Didefinisikan oleh Kemajuan"'],
+    ["About Us", "Tentang Kami"], ["WHO WE", "SIAPA"],
+    ["Broadheader IT Solutions Inc. is a dynamic software development startup rooted in the Philippines, dedicated to shaping the digital future with cutting-edge solutions and globally recognized innovations.", "Broadheader IT Solutions Inc. adalah startup pengembangan perangkat lunak dinamis yang berakar di Filipina."],
+    ["What started as a bold initiative has rapidly evolved into a trusted technology partner, delivering transformative digital experiences that empower enterprises worldwide.", "Apa yang dimulai sebagai inisiatif berani telah berkembang menjadi mitra teknologi tepercaya."],
+    ["Core Services", "Layanan Inti"], ["Support", "Dukungan"], ["Based", "Berbasis"],
+    ["What Drives Us", "Yang Mendorong Kami"],
+    ["Innovation at the Core", "Inovasi di Inti"], ["We embrace new technologies and continuously push boundaries to deliver solutions ahead of the curve.", "Kami merangkul teknologi baru dan terus mendorong batas."],
+    ["Partnership Mindset", "Pola Pikir Kemitraan"], ["We build long-term relationships, acting as a true digital partner in our clients' growth journey.", "Kami membangun hubungan jangka panjang sebagai mitra digital sejati."],
+    ["Global Perspective", "Perspektif Global"], ["Rooted in the Philippines, we deliver solutions that meet global standards and serve international markets.", "Berakar di Filipina, kami memberikan solusi standar global."],
+    ["Results-Focused", "Berorientasi Hasil"], ["Every solution is engineered for measurable impact — performance, conversions, and sustainable growth.", "Setiap solusi dirancang untuk dampak terukur."],
+    ["Our Foundation", "Fondasi Kami"], ["MISSION, VISION", "MISI, VISI"], ["VALUES", "NILAI"],
+    ["Our Mission", "Misi Kami"], ["To empower businesses with innovative digital solutions that drive sustainable growth, enhance efficiency, and create lasting impact. We leverage technology to bridge the gap between complex challenges and smart, scalable solutions.", "Memberdayakan bisnis dengan solusi digital inovatif yang mendorong pertumbuhan berkelanjutan."],
+    ["Our Vision", "Visi Kami"], ["To become a globally recognized technology powerhouse from Southeast Asia — known for building transformative digital products that empower businesses and shape the future of the digital economy.", "Menjadi kekuatan teknologi yang diakui secara global dari Asia Tenggara."],
+    ["Our Values", "Nilai-Nilai Kami"], ["Excellence", "Keunggulan"], ["We pursue quality in everything we ship.", "Kami mengejar kualitas dalam segala hal."],
+    ["Integrity", "Integritas"], ["We are transparent, honest, and accountable.", "Kami transparan, jujur, dan bertanggung jawab."],
+    ["Agility", "Kelincahan"], ["We adapt, iterate, and move decisively.", "Kami beradaptasi dan bergerak tegas."],
+    ["Collaboration", "Kolaborasi"], ["We thrive as one unified team.", "Kami berkembang sebagai satu tim."],
+    ["Our Advantage", "Keunggulan Kami"], ["WHY CHOOSE", "MENGAPA MEMILIH"],
+    ["Broadheader combines innovation, reliability, and expertise to build software solutions that drive your digital success. We don't just build products — we build competitive advantages.", "Broadheader menggabungkan inovasi dan keahlian untuk membangun solusi perangkat lunak."],
+    ["We treat every client project as if it were our own startup — with the same urgency, creativity, and commitment to excellence.", "Kami memperlakukan setiap proyek klien seolah startup kami sendiri."],
+    ["Cutting Edge Technology", "Teknologi Mutakhir"], ["Modern solutions for modern challenges", "Solusi modern untuk tantangan modern"],
+    ["24/7 Dedicated Support", "Dukungan 24/7"], ["Always available, always reliable", "Selalu tersedia, selalu andal"],
+    ["Data-Driven Approach", "Pendekatan Berbasis Data"], ["Smarter decisions, better outcomes", "Keputusan lebih cerdas"],
+    ["Future-Ready & Scalable Design", "Desain Siap Masa Depan"], ["Built to grow with your business", "Tumbuh bersama bisnis Anda"],
+    ["Our Differentiators", "Pembeda Kami"], ["WHAT SETS US", "YANG MEMBUAT KAMI"],
+    ["We stay ahead of the technology curve — adopting the latest frameworks, cloud infrastructure, and development practices so your product is never outdated.", "Kami selalu di depan kurva teknologi."],
+    ["Our support team is always on standby to ensure your systems run smoothly — no downtime, no missed opportunities, just seamless performance.", "Tim dukungan kami selalu siaga."],
+    ["Data-Driven Development", "Pengembangan Berbasis Data"],
+    ["Every feature we build, every design choice we make is backed by data — ensuring your product is optimized for real-world performance and measurable results.", "Setiap fitur didukung data."],
+    ["Future-Ready & Scalable", "Siap Masa Depan & Skalabel"],
+    ["Architecture that evolves — from startup to enterprise scale — without costly rewrites or migrations. Your growth is built into the foundation.", "Arsitektur yang berkembang tanpa penulisan ulang mahal."],
+    ["Our Services — 01 & 02", "Layanan Kami — 01 & 02"], ["WEB APPS", "APLIKASI WEB"], ["MOBILE APPS", "APLIKASI MOBILE"],
+    ["Web Applications", "Aplikasi Web"], ["From corporate websites to complex e-commerce platforms, we develop web solutions that are fast, secure, and designed to convert.", "Kami mengembangkan solusi web yang cepat dan aman."],
+    ["Corporate & marketing websites", "Situs web korporat"], ["E-commerce platforms", "Platform e-commerce"], ["Progressive Web Apps (PWAs)", "Progressive Web Apps (PWA)"], ["Custom CMS & dashboards", "CMS & dashboard kustom"], ["API integrations & backend systems", "Integrasi API & backend"],
+    ["Mobile Applications", "Aplikasi Mobile"], ["We build mobile apps that provide real value to your customers while strengthening your brand, from concept to App Store launch.", "Kami membangun aplikasi mobile dari konsep hingga peluncuran."],
+    ["iOS & Android native apps", "Aplikasi native iOS & Android"], ["Cross-platform (React Native / Flutter)", "Cross-platform (React Native / Flutter)"], ["UI/UX-focused design", "Desain fokus UI/UX"], ["Push notifications & real-time features", "Notifikasi push & fitur real-time"], ["App Store optimization & launch support", "Optimasi App Store"],
+    ["Our Services — 03 & 04", "Layanan Kami — 03 & 04"], ["DIGITAL DESIGN", "DESAIN DIGITAL"], ["TECHNICAL SUPPORT", "DUKUNGAN TEKNIS"],
+    ["Digital Design", "Desain Digital"], ["We create visual identities and user experiences that communicate your brand's story effectively. Design isn't decoration — it's the first conversation with your customer.", "Kami menciptakan identitas visual yang efektif."],
+    ["Brand identity & logo systems", "Identitas brand & logo"], ["UI/UX design for web and mobile", "Desain UI/UX"], ["Design systems & component libraries", "Sistem desain"], ["Motion design & micro-animations", "Desain motion"], ["Marketing materials & digital assets", "Materi pemasaran"],
+    ["Technical Support", "Dukungan Teknis"], ["Our support team ensures your websites, applications, and digital infrastructure operate reliably around the clock. We're your safety net.", "Tim dukungan kami memastikan infrastruktur digital Anda andal."],
+    ["24/7 monitoring & incident response", "Pemantauan 24/7"], ["Bug fixes & performance optimization", "Perbaikan bug"], ["Server management & cloud hosting", "Manajemen server"], ["Backup & disaster recovery", "Backup & pemulihan"], ["Regular updates & maintenance", "Pembaruan rutin"],
+    ["Our Services — 05", "Layanan Kami — 05"], ["CYBERSECURITY", "KEAMANAN SIBER"], ["SERVICES", "LAYANAN"],
+    ["We implement multi-layered security measures to safeguard your business. From basic security hygiene to advanced threat protection, we help you build customer trust through robust data protection.", "Kami menerapkan keamanan berlapis untuk melindungi bisnis Anda."],
+    ["Security Audits & Vulnerability Assessment", "Audit Keamanan"], ["Thorough reviews to identify and patch security gaps before they become threats.", "Tinjauan menyeluruh."],
+    ["Advanced Threat Protection", "Perlindungan Ancaman"], ["Real-time monitoring and response systems to detect and neutralize attacks.", "Pemantauan real-time."],
+    ["Data Encryption & Compliance", "Enkripsi Data"], ["End-to-end encryption and compliance frameworks to protect sensitive data.", "Enkripsi end-to-end."],
+    ["Incident Response & Recovery", "Respons Insiden"], ["Rapid containment and recovery plans to minimize downtime and data loss.", "Rencana pemulihan cepat."],
+    ["Basic Security Hygiene", "Kebersihan Keamanan"], ["SSL certificates, secure coding practices, input validation, and access control fundamentals.", "Sertifikat SSL dan praktik aman."],
+    ["Threat Intelligence", "Intelijen Ancaman"], ["Continuous threat landscape monitoring to keep your defenses updated against emerging vectors.", "Pemantauan ancaman berkelanjutan."],
+    ["Compliance & Governance", "Kepatuhan & Tata Kelola"], ["Aligning systems with international data privacy standards including GDPR and local regulations.", "Standar privasi internasional."],
+    ["Network Security", "Keamanan Jaringan"], ["Firewalls, VPN configurations, and network segmentation to protect your digital infrastructure.", "Firewall dan segmentasi jaringan."],
+    ["The Broadheader Commitment", "Komitmen Broadheader"], ["OUR PROMISE", "JANJI KAMI"], ["TO YOU", "UNTUK ANDA"],
+    ["On-Time, On-Budget Delivery", "Tepat Waktu, Sesuai Anggaran"], ["We respect your timelines and budgets. Our agile process ensures transparent milestones, regular updates, and no surprise costs. You always know where your project stands.", "Kami menghormati timeline dan anggaran Anda."],
+    ["Quality Without Compromise", "Kualitas Tanpa Kompromi"], ["Every line of code, every design element goes through rigorous quality assurance. We ship products that we're proud to put our name on.", "Setiap baris kode melalui jaminan kualitas ketat."],
+    ["Long-Term Partnership", "Kemitraan Jangka Panjang"], ["We don't disappear after launch. Post-launch support, feature updates, and strategic guidance are all part of how we operate. Your growth is our growth.", "Kami tidak menghilang setelah peluncuran."],
+    ["GROW YOUR BUSINESS WITH US", "KEMBANGKAN BISNIS ANDA BERSAMA KAMI"],
+    ["Get In Touch", "Hubungi Kami"], ["LET'S BUILD", "MARI BANGUN"], ["SOMETHING", "SESUATU YANG"], ["GREAT", "HEBAT"],
+    ["Ready to transform your ideas into reality? Let's start a conversation about your next digital project. Our team is ready to listen, plan, and deliver.", "Siap mewujudkan ide Anda? Mari mulai percakapan."],
+    ["START YOUR PROJECT", "MULAI PROYEK ANDA"], ["Contact Information", "Informasi Kontak"],
+    [">Email<", ">Email<"], [">Phone<", ">Telepon<"], [">Address<", ">Alamat<"],
+    ["Pampanga, Philippines", "Pampanga, Filipina"],
+    ['"TRANSFORM YOUR IDEAS INTO REALITY"', '"WUJUDKAN IDE ANDA MENJADI NYATA"'],
+    ["Tech-First", "Teknologi"], ["Always On", "Selalu Aktif"], ["Insights-Led", "Berbasis Data"], ["Scale-Ready", "Skalabel"],
+  ],
+  th: [
+    ["Company Profile · 2025", "โปรไฟล์บริษัท · 2025"],
+    ["TRANSFORM", "เปลี่ยน"],
+    ["YOUR ", ""],
+    ["INTO REALITY", "ให้เป็นจริง"],
+    [">IDEAS<", ">ไอเดีย<"],
+    [">ARE<", ">คือใคร<"],
+    [">US<", ">เรา<"],
+    [">APART<", ">แตกต่าง<"],
+    [">SERVICES<", ">บริการ<"],
+    [">GREAT<", ">ยิ่งใหญ่<"],
+    [">TO YOU<", ">ต่อคุณ<"],
+    ["Dedicated Support", "การสนับสนุนเฉพาะ"],
+    ["Future-Ready & Scalable Design", "ออกแบบพร้อมรับอนาคตและปรับขนาดได้"],
+    ["Corporate & marketing websites", "เว็บไซต์องค์กรและการตลาด"],
+    ["Custom CMS & dashboards", "CMS และแดชบอร์ดกำหนดเอง"],
+    ["API integrations & backend systems", "การรวม API และระบบแบ็กเอนด์"],
+    ["Push notifications & real-time features", "การแจ้งเตือนและฟีเจอร์เรียลไทม์"],
+    ["App Store optimization & launch support", "การเพิ่มประสิทธิภาพ App Store"],
+    ["Brand identity & logo systems", "อัตลักษณ์แบรนด์และระบบโลโก้"],
+    ["Design systems & component libraries", "ระบบการออกแบบและไลบรารีคอมโพเนนต์"],
+    ["Motion design & micro-animations", "การออกแบบโมชันและไมโครแอนิเมชัน"],
+    ["Marketing materials & digital assets", "สื่อการตลาดและสินทรัพย์ดิจิทัล"],
+    ["24/7 monitoring & incident response", "การตรวจสอบและตอบสนองเหตุการณ์ 24/7"],
+    ["Bug fixes & performance optimization", "แก้ไขบั๊กและเพิ่มประสิทธิภาพ"],
+    ["Server management & cloud hosting", "จัดการเซิร์ฟเวอร์และคลาวด์โฮสติ้ง"],
+    ["Backup & disaster recovery", "สำรองข้อมูลและกู้คืนจากภัยพิบัติ"],
+    ["Regular updates & maintenance", "อัปเดตและบำรุงรักษาเป็นประจำ"],
+    ["GROW YOUR BUSINESS WITH US", "เติบโตธุรกิจของคุณไปกับเรา"],
+    ["We are a dynamic software development startup from the Philippines, dedicated to shaping the digital future with cutting-edge solutions.", "เราเป็นสตาร์ทอัพจากฟิลิปปินส์ มุ่งมั่นสร้างอนาคตดิจิทัล"],
+    ['"Driven by Innovation,', '"ขับเคลื่อนด้วยนวัตกรรม'],
+    ['Defined by Progress"', 'กำหนดด้วยความก้าวหน้า"'],
+    ["About Us", "เกี่ยวกับเรา"], ["WHO WE", "เราคือ"],
+    ["Broadheader IT Solutions Inc. is a dynamic software development startup rooted in the Philippines, dedicated to shaping the digital future with cutting-edge solutions and globally recognized innovations.", "Broadheader IT Solutions Inc. เป็นสตาร์ทอัพจากฟิลิปปินส์ มุ่งมั่นสร้างอนาคตดิจิทัล"],
+    ["What started as a bold initiative has rapidly evolved into a trusted technology partner, delivering transformative digital experiences that empower enterprises worldwide.", "จากจุดเริ่มต้นที่กล้าหาญ พัฒนาเป็นพันธมิตรเทคโนโลยีที่เชื่อถือได้"],
+    ["Core Services", "บริการหลัก"], ["Support", "สนับสนุน"], ["Based", "สำนักงาน"],
+    ["What Drives Us", "สิ่งที่ขับเคลื่อนเรา"],
+    ["Innovation at the Core", "นวัตกรรมเป็นหัวใจ"], ["We embrace new technologies and continuously push boundaries to deliver solutions ahead of the curve.", "เรายอมรับเทคโนโลยีใหม่"],
+    ["Partnership Mindset", "แนวคิดเป็นพันธมิตร"], ["We build long-term relationships, acting as a true digital partner in our clients' growth journey.", "เราสร้างความสัมพันธ์ระยะยาว"],
+    ["Global Perspective", "มุมมองระดับโลก"], ["Rooted in the Philippines, we deliver solutions that meet global standards and serve international markets.", "ส่งมอบโซลูชันระดับโลก"],
+    ["Results-Focused", "มุ่งเน้นผลลัพธ์"], ["Every solution is engineered for measurable impact — performance, conversions, and sustainable growth.", "ทุกโซลูชันออกแบบเพื่อผลกระทบที่วัดได้"],
+    ["Our Foundation", "รากฐานของเรา"], ["MISSION, VISION", "พันธกิจ วิสัยทัศน์"], ["VALUES", "ค่านิยม"],
+    ["Our Mission", "พันธกิจ"], ["To empower businesses with innovative digital solutions that drive sustainable growth, enhance efficiency, and create lasting impact. We leverage technology to bridge the gap between complex challenges and smart, scalable solutions.", "เสริมพลังธุรกิจด้วยโซลูชันดิจิทัลนวัตกรรม"],
+    ["Our Vision", "วิสัยทัศน์"], ["To become a globally recognized technology powerhouse from Southeast Asia — known for building transformative digital products that empower businesses and shape the future of the digital economy.", "เป็นมหาอำนาจเทคโนโลยีจากเอเชียตะวันออกเฉียงใต้"],
+    ["Our Values", "ค่านิยม"], ["Excellence", "ความเป็นเลิศ"], ["We pursue quality in everything we ship.", "เราแสวงหาคุณภาพในทุกสิ่ง"],
+    ["Integrity", "ความซื่อสัตย์"], ["We are transparent, honest, and accountable.", "เราโปร่งใสและรับผิดชอบ"],
+    ["Agility", "ความคล่องตัว"], ["We adapt, iterate, and move decisively.", "เราปรับตัวและเคลื่อนไหวอย่างเด็ดขาด"],
+    ["Collaboration", "ความร่วมมือ"], ["We thrive as one unified team.", "เราเติบโตเป็นทีมเดียวกัน"],
+    ["Our Advantage", "ข้อได้เปรียบของเรา"], ["WHY CHOOSE", "ทำไมต้องเลือก"],
+    ["Broadheader combines innovation, reliability, and expertise to build software solutions that drive your digital success. We don't just build products — we build competitive advantages.", "Broadheader ผสมผสานนวัตกรรมและความเชี่ยวชาญ"],
+    ["We treat every client project as if it were our own startup — with the same urgency, creativity, and commitment to excellence.", "เราปฏิบัติต่อทุกโปรเจกต์เหมือนสตาร์ทอัพของเราเอง"],
+    ["Cutting Edge Technology", "เทคโนโลยีล้ำสมัย"], ["Modern solutions for modern challenges", "โซลูชันทันสมัย"],
+    ["24/7 Dedicated Support", "สนับสนุน 24/7"], ["Always available, always reliable", "พร้อมเสมอ"],
+    ["Data-Driven Approach", "แนวทางขับเคลื่อนด้วยข้อมูล"], ["Smarter decisions, better outcomes", "การตัดสินใจที่ดีกว่า"],
+    ["Future-Ready & Scalable Design", "ออกแบบพร้อมรับอนาคต"], ["Built to grow with your business", "เติบโตไปกับธุรกิจ"],
+    ["Our Differentiators", "ความแตกต่างของเรา"], ["WHAT SETS US", "สิ่งที่ทำให้เรา"],
+    ["We stay ahead of the technology curve — adopting the latest frameworks, cloud infrastructure, and development practices so your product is never outdated.", "เราอยู่เหนือเส้นโค้งเทคโนโลยี"],
+    ["Our support team is always on standby to ensure your systems run smoothly — no downtime, no missed opportunities, just seamless performance.", "ทีมสนับสนุนพร้อมเสมอ"],
+    ["Data-Driven Development", "การพัฒนาขับเคลื่อนด้วยข้อมูล"],
+    ["Every feature we build, every design choice we make is backed by data — ensuring your product is optimized for real-world performance and measurable results.", "ทุกฟีเจอร์ได้รับการสนับสนุนจากข้อมูล"],
+    ["Future-Ready & Scalable", "พร้อมรับอนาคตและปรับขนาดได้"],
+    ["Architecture that evolves — from startup to enterprise scale — without costly rewrites or migrations. Your growth is built into the foundation.", "สถาปัตยกรรมที่วิวัฒนาการ"],
+    ["Our Services — 01 & 02", "บริการของเรา — 01 & 02"], ["WEB APPS", "เว็บแอป"], ["MOBILE APPS", "แอปมือถือ"],
+    ["Web Applications", "แอปพลิเคชันเว็บ"], ["From corporate websites to complex e-commerce platforms, we develop web solutions that are fast, secure, and designed to convert.", "เราพัฒนาโซลูชันเว็บที่รวดเร็วและปลอดภัย"],
+    ["Corporate & marketing websites", "เว็บไซต์องค์กร"], ["E-commerce platforms", "แพลตฟอร์มอีคอมเมิร์ซ"], ["Progressive Web Apps (PWAs)", "Progressive Web Apps (PWA)"], ["Custom CMS & dashboards", "CMS กำหนดเอง"], ["API integrations & backend systems", "การรวม API"],
+    ["Mobile Applications", "แอปพลิเคชันมือถือ"], ["We build mobile apps that provide real value to your customers while strengthening your brand, from concept to App Store launch.", "เราสร้างแอปมือถือที่มอบคุณค่าที่แท้จริง"],
+    ["iOS & Android native apps", "แอป iOS และ Android"], ["Cross-platform (React Native / Flutter)", "ข้ามแพลตฟอร์ม (React Native / Flutter)"], ["UI/UX-focused design", "ออกแบบ UI/UX"], ["Push notifications & real-time features", "การแจ้งเตือนและเรียลไทม์"], ["App Store optimization & launch support", "เพิ่มประสิทธิภาพ App Store"],
+    ["Our Services — 03 & 04", "บริการของเรา — 03 & 04"], ["DIGITAL DESIGN", "การออกแบบดิจิทัล"], ["TECHNICAL SUPPORT", "สนับสนุนเทคนิค"],
+    ["Digital Design", "การออกแบบดิจิทัล"], ["We create visual identities and user experiences that communicate your brand's story effectively. Design isn't decoration — it's the first conversation with your customer.", "เราสร้างอัตลักษณ์ทางภาพที่มีประสิทธิภาพ"],
+    ["Brand identity & logo systems", "อัตลักษณ์แบรนด์"], ["UI/UX design for web and mobile", "ออกแบบ UI/UX"], ["Design systems & component libraries", "ระบบการออกแบบ"], ["Motion design & micro-animations", "การออกแบบโมชัน"], ["Marketing materials & digital assets", "สื่อการตลาด"],
+    ["Technical Support", "สนับสนุนเทคนิค"], ["Our support team ensures your websites, applications, and digital infrastructure operate reliably around the clock. We're your safety net.", "ทีมสนับสนุนดูแลตลอด 24 ชั่วโมง"],
+    ["24/7 monitoring & incident response", "การตรวจสอบ 24/7"], ["Bug fixes & performance optimization", "แก้ไขบั๊ก"], ["Server management & cloud hosting", "จัดการเซิร์ฟเวอร์"], ["Backup & disaster recovery", "สำรองข้อมูล"], ["Regular updates & maintenance", "อัปเดตเป็นประจำ"],
+    ["Our Services — 05", "บริการของเรา — 05"], ["CYBERSECURITY", "ความปลอดภัยไซเบอร์"], ["SERVICES", "บริการ"],
+    ["We implement multi-layered security measures to safeguard your business. From basic security hygiene to advanced threat protection, we help you build customer trust through robust data protection.", "เราใช้มาตรการความปลอดภัยหลายชั้น"],
+    ["Security Audits & Vulnerability Assessment", "การตรวจสอบความปลอดภัย"], ["Thorough reviews to identify and patch security gaps before they become threats.", "การตรวจสอบอย่างละเอียด"],
+    ["Advanced Threat Protection", "การป้องกันภัยคุกคาม"], ["Real-time monitoring and response systems to detect and neutralize attacks.", "ระบบเรียลไทม์"],
+    ["Data Encryption & Compliance", "การเข้ารหัสข้อมูล"], ["End-to-end encryption and compliance frameworks to protect sensitive data.", "การเข้ารหัส end-to-end"],
+    ["Incident Response & Recovery", "การตอบสนองเหตุการณ์"], ["Rapid containment and recovery plans to minimize downtime and data loss.", "แผนกู้คืนรวดเร็ว"],
+    ["Basic Security Hygiene", "สุขอนามัยความปลอดภัย"], ["SSL certificates, secure coding practices, input validation, and access control fundamentals.", "ใบรับรอง SSL และการเขียนโค้ดปลอดภัย"],
+    ["Threat Intelligence", "ข่าวกรองภัยคุกคาม"], ["Continuous threat landscape monitoring to keep your defenses updated against emerging vectors.", "การติดตามภัยคุกคามอย่างต่อเนื่อง"],
+    ["Compliance & Governance", "การปฏิบัติตามกฎระเบียบ"], ["Aligning systems with international data privacy standards including GDPR and local regulations.", "มาตรฐานความเป็นส่วนตัวระหว่างประเทศ"],
+    ["Network Security", "ความปลอดภัยเครือข่าย"], ["Firewalls, VPN configurations, and network segmentation to protect your digital infrastructure.", "ไฟร์วอลล์และ VPN"],
+    ["The Broadheader Commitment", "คำมั่นสัญญา Broadheader"], ["OUR PROMISE", "คำสัญญาของเรา"], ["TO YOU", "ต่อคุณ"],
+    ["On-Time, On-Budget Delivery", "ส่งมอบตรงเวลา"], ["We respect your timelines and budgets. Our agile process ensures transparent milestones, regular updates, and no surprise costs. You always know where your project stands.", "เราเคารพกำหนดเวลาของคุณ"],
+    ["Quality Without Compromise", "คุณภาพไม่ประนีประนอม"], ["Every line of code, every design element goes through rigorous quality assurance. We ship products that we're proud to put our name on.", "ทุกบรรทัดโค้ดผ่านการประกันคุณภาพ"],
+    ["Long-Term Partnership", "พันธมิตรระยะยาว"], ["We don't disappear after launch. Post-launch support, feature updates, and strategic guidance are all part of how we operate. Your growth is our growth.", "เราไม่หายไปหลังเปิดตัว"],
+    ["GROW YOUR BUSINESS WITH US", "เติบโตธุรกิจของคุณไปกับเรา"],
+    ["Get In Touch", "ติดต่อเรา"], ["LET'S BUILD", "มาสร้าง"], ["SOMETHING", "สิ่ง"], ["GREAT", "ยิ่งใหญ่"],
+    ["Ready to transform your ideas into reality? Let's start a conversation about your next digital project. Our team is ready to listen, plan, and deliver.", "พร้อมที่จะเปลี่ยนไอเดียให้เป็นจริง? มาเริ่มการสนทนา"],
+    ["START YOUR PROJECT", "เริ่มโปรเจกต์ของคุณ"], ["Contact Information", "ข้อมูลการติดต่อ"],
+    [">Email<", ">อีเมล<"], [">Phone<", ">โทรศัพท์<"], [">Address<", ">ที่อยู่<"],
+    ["Pampanga, Philippines", "Pampanga, ฟิลิปปินส์"],
+    ['"TRANSFORM YOUR IDEAS INTO REALITY"', '"เปลี่ยนไอเดียของคุณให้เป็นจริง"'],
+    ["Tech-First", "เทคโนโลยี"], ["Always On", "ตลอดเวลา"], ["Insights-Led", "ข้อมูลนำ"], ["Scale-Ready", "ปรับขนาดได้"],
+  ],
+};
+
+let countObserver; // hoisted for access in switchLang
+
+function switchLang(lang) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.trim() === {en:'EN',zh:'中文',id:'ID',th:'ไทย'}[lang]));
+
+  const allSlides = document.querySelectorAll('.slide');
+  if (lang === 'en') {
+    // Restore originals
+    allSlides.forEach((s, i) => { if (originalSlidesHTML[i]) s.innerHTML = originalSlidesHTML[i]; });
+  } else if (TR[lang]) {
+    // First restore English, then replace
+    allSlides.forEach((s, i) => { if (originalSlidesHTML[i]) s.innerHTML = originalSlidesHTML[i]; });
+    const pairs = TR[lang];
+    allSlides.forEach(s => {
+      let html = s.innerHTML;
+      for (const [en, translated] of pairs) {
+        html = html.split(en).join(translated);
+      }
+      s.innerHTML = html;
+    });
+  }
+
+  // Reset all reveal elements so they animate again
+  document.querySelectorAll('.reveal').forEach(el => {
+    el.classList.remove('visible');
+    el.style.transitionDelay = '';
+  });
+  // Re-init the scroll reveal observer
+  initReveal();
+  // Re-init all effects
+  document.querySelectorAll('.glitch').forEach(el => el.setAttribute('data-text', el.textContent));
+  // Reset counters to re-animate
+  document.querySelectorAll('.count-up').forEach(el => {
+    el.textContent = '0';
+    if (countObserver) countObserver.observe(el);
+  });
+  // Re-init typing animation
+  initTyping();
+  document.querySelectorAll('.tilt-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const rotateX = ((e.clientY - rect.top) - rect.height/2) / (rect.height/2) * -5;
+      const rotateY = ((e.clientX - rect.left) - rect.width/2) / (rect.width/2) * 5;
+      card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-3px)`;
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
+}
+
+// ══════════════════════════════════════════
+// EFFECT 1: Particle Network
+// ══════════════════════════════════════════
+const pc = document.getElementById('particles');
+const pCtx = pc.getContext('2d');
+let particles = [];
+let mouseX = 0, mouseY = 0;
+
+function resizeParticles() { pc.width = window.innerWidth; pc.height = window.innerHeight; }
+resizeParticles();
+window.addEventListener('resize', resizeParticles);
+
+for (let i = 0; i < 60; i++) {
+  particles.push({
+    x: Math.random() * pc.width, y: Math.random() * pc.height,
+    vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4,
+    r: Math.random() * 2 + 1
+  });
+}
+
+function drawParticles() {
+  pCtx.clearRect(0, 0, pc.width, pc.height);
+  particles.forEach((p, i) => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0 || p.x > pc.width) p.vx *= -1;
+    if (p.y < 0 || p.y > pc.height) p.vy *= -1;
+
+    pCtx.beginPath();
+    pCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    pCtx.fillStyle = 'rgba(255,255,255,0.3)';
+    pCtx.fill();
+
+    // Connect nearby particles
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = p.x - particles[j].x, dy = p.y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 150) {
+        pCtx.beginPath();
+        pCtx.moveTo(p.x, p.y);
+        pCtx.lineTo(particles[j].x, particles[j].y);
+        pCtx.strokeStyle = `rgba(255,255,255,${0.08 * (1 - dist / 150)})`;
+        pCtx.lineWidth = 0.5;
+        pCtx.stroke();
+      }
+    }
+
+    // Connect to mouse
+    const mx = p.x - mouseX, my = p.y - mouseY;
+    const md = Math.sqrt(mx * mx + my * my);
+    if (md < 200) {
+      pCtx.beginPath();
+      pCtx.moveTo(p.x, p.y);
+      pCtx.lineTo(mouseX, mouseY);
+      pCtx.strokeStyle = `rgba(255,255,255,${0.15 * (1 - md / 200)})`;
+      pCtx.lineWidth = 0.8;
+      pCtx.stroke();
+    }
+  });
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+// ══════════════════════════════════════════
+// EFFECT 2: Matrix Rain
+// ══════════════════════════════════════════
+const mc = document.getElementById('matrix');
+const mCtx = mc.getContext('2d');
+mc.width = window.innerWidth; mc.height = window.innerHeight;
+window.addEventListener('resize', () => { mc.width = window.innerWidth; mc.height = window.innerHeight; });
+
+const chars = 'BROADHEADER01アイウエオカキクケコ<>{}[]';
+const fontSize = 12;
+const columns = Math.floor(mc.width / fontSize);
+const drops = Array(columns).fill(1);
+
+function drawMatrix() {
+  mCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  mCtx.fillRect(0, 0, mc.width, mc.height);
+  mCtx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+  mCtx.font = fontSize + 'px monospace';
+
+  for (let i = 0; i < drops.length; i++) {
+    const char = chars[Math.floor(Math.random() * chars.length)];
+    mCtx.fillText(char, i * fontSize, drops[i] * fontSize);
+    if (drops[i] * fontSize > mc.height && Math.random() > 0.975) drops[i] = 0;
+    drops[i]++;
+  }
+}
+setInterval(drawMatrix, 50);
+
+// ══════════════════════════════════════════
+// EFFECT 3: Cursor Glow
+// ══════════════════════════════════════════
+const cursorGlow = document.getElementById('cursorGlow');
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX; mouseY = e.clientY;
+  cursorGlow.style.left = e.clientX + 'px';
+  cursorGlow.style.top = e.clientY + 'px';
+});
+
+// ══════════════════════════════════════════
+// EFFECT 4: Scroll Reveal
+// ══════════════════════════════════════════
+function initReveal() {
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const parent = entry.target.parentElement;
+        if (parent) {
+          const siblings = Array.from(parent.querySelectorAll('.reveal'));
+          const idx = siblings.indexOf(entry.target);
+          entry.target.style.transitionDelay = (idx * 0.08) + 's';
+        }
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+
+  els.forEach(el => {
+    // If already in viewport, show immediately
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      el.style.transitionDelay = '0s';
+      el.classList.add('visible');
+    } else {
+      obs.observe(el);
+    }
+  });
+}
+initReveal();
+
+// ══════════════════════════════════════════
+// EFFECT 5: Counter Animation
+// ══════════════════════════════════════════
+countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = el.dataset.target;
+      if (target === 'PH') {
+        el.textContent = 'PH';
+      } else if (target === '24/7') {
+        let c = 0;
+        const iv = setInterval(() => { c++; el.textContent = c >= 24 ? '24/7' : c + '/7'; if (c >= 24) clearInterval(iv); }, 40);
+      } else {
+        const num = parseInt(target);
+        let c = 0;
+        const iv = setInterval(() => {
+          c++; el.textContent = c + '+';
+          if (c >= num) { el.textContent = target; clearInterval(iv); }
+        }, 80);
+      }
+      countObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.count-up').forEach(el => countObserver.observe(el));
+
+// ══════════════════════════════════════════
+// EFFECT 6: Glitch Text data-text
+// ══════════════════════════════════════════
+document.querySelectorAll('.glitch').forEach(el => {
+  el.setAttribute('data-text', el.textContent);
+});
+
+// ══════════════════════════════════════════
+// EFFECT 7: Card 3D Tilt
+// ══════════════════════════════════════════
+document.querySelectorAll('.tilt-card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = (y - centerY) / centerY * -5;
+    const rotateY = (x - centerX) / centerX * 5;
+    card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-3px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateY(0)';
+  });
+});
+
+// ══════════════════════════════════════════
+// EFFECT 8: Parallax Glow on Scroll
+// ══════════════════════════════════════════
+document.querySelectorAll('.glow').forEach(g => g.classList.add('parallax-glow'));
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  document.querySelectorAll('.parallax-glow').forEach((g, i) => {
+    const speed = (i % 2 === 0) ? 0.03 : -0.02;
+    g.style.transform = `translateY(${scrollY * speed}px)`;
+  });
+});
+
+// ══════════════════════════════════════════
+// EFFECT 9: Typing Animation on eyebrows
+// ══════════════════════════════════════════
+function initTyping() {
+  document.querySelectorAll('.eyebrow.reveal').forEach(el => {
+    const original = el.textContent;
+    let typed = false;
+    const tObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !typed) {
+          typed = true;
+          el.textContent = '';
+          el.classList.add('type-cursor');
+          el.style.opacity = '1';
+          let i = 0;
+          const iv = setInterval(() => {
+            if (i < original.length) { el.textContent += original[i]; i++; }
+            else { clearInterval(iv); el.classList.remove('type-cursor'); }
+          }, 30);
+          tObs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+    tObs.observe(el);
+  });
+}
+initTyping();
+</script>
+
+</body>
+</html>
